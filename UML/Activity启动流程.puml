@@ -1,0 +1,100 @@
+@startuml
+participant "Activity\n(Source)" as a
+participant "Instrumentation\n(Source)" as instrument
+participant "ActivityThread\n(Source)" as at1
+participant "ApplicationThread\n(Source)" as apt1
+participant "ApplicationThreadNative\n(Source)" as atn1
+participant "ActivityManagerProxy\n(Source)" as amp1
+boundary "Activity(Source)-AMS"
+participant "ApplicationThreadProxy\n(Source)" as atp1
+participant ActivityManagerService as ams
+participant ActivityStackSupervisor as ass
+participant ActivityStack as as
+participant "ApplicationThreadProxy\n(Target)" as atp2
+boundary "AMS-Activity(Target)"
+participant "ActivityManagerProxy\n(Target)" as amp2
+participant "ApplicationThreadNative\n(Target)" as atn2
+participant "ApplicationThread\n(Target)" as apt2
+participant "ActivityThread\n(Target)" as apt2
+participant "Activity\n(Target)" as b
+boundary process
+participant Zygote as zygote
+participant Process as proc
+
+-> a: startActivity
+activate a
+a->a: startActivityForResult
+activate a
+a->instrument:execStartActivity
+activate instrument
+deactivate a
+deactivate a
+instrument->amp1:startActivity
+activate amp1
+amp1->ams:startActivity
+deactivate instrument
+activate ams
+ams->ams:startActivityAsUser
+deactivate amp1
+activate ams
+ams->ass:startActivityMayWait
+activate ass
+deactivate ams
+deactivate ams
+ass->ass:startActivityLocked
+activate ass
+ass->ass:startActivityUncheckedLocked
+activate ass
+ass->as:startActivityLocked
+activate as
+deactivate ass
+deactivate ass
+deactivate ass
+as->ass:resumeTopActivitiesLocked
+activate ass
+deactivate as
+ass->as:resumeTopActivitiesLocked
+activate as
+deactivate ass
+as->as:resumeTopActivityInnerLocked
+activate as
+as->as:startPausingLocked
+activate as
+as->atp1:schedulePauseActivity
+activate atp1
+deactivate as
+deactivate as
+deactivate as
+atp1->atn1:onTransact
+activate atn1
+deactivate atp1
+atn1->apt1:schedulePauseActivity
+activate apt1
+deactivate atn1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
