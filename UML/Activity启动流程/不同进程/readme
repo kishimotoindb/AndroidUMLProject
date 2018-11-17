@@ -1,0 +1,8 @@
+1. 时序图命名规则说明：
+    以 no1_startActivity_to_schedulePauseActivity 为例进行说明
+    a. no1: 表示此系列时序图的第一张图，并且是当前完整流程中的第一段流程。一个流程由多张图组成，说明整个流程
+            是一个异步的流程。
+    b. startActivity: 这段流程的起始方法名称
+    c. schedulePauseActivity: 这段流程的结束方法名称
+
+2. 一张时序图中的所有方法调用都是同步的，异步的调用会画在不同的时序图中。
