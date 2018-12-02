@@ -71,6 +71,9 @@ deactivate atp1
 atn1->apt1:schedulePauseActivity
 activate apt1
 deactivate atn1
+apt1->at1: sendMessage(PauseActivity)
+deactivate apt1
+
 
 
 

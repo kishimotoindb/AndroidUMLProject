@@ -1,0 +1,66 @@
+@startuml
+participant "ContextImpl\n(Source)" as a
+participant ActivityManagerService as ams
+participant ActiveServices as as
+
+-> a: startService
+activate a
+a-> a:startServiceCommon
+activate a
+a->ams: startSerivce
+activate ams
+deactivate a
+deactivate a
+ams->as: startServiceLocked
+activate as
+as->as:startServiceInnerLocked
+deactivate ams
+activate as
+as->as:bringUpServiceLocked
+activate as
+as->ams:startProcessLocked
+activate ams
+as->as:mPendingServices.add(service)
+activate as
+deactivate ams
+deactivate as
+deactivate as
+deactivate as
+deactivate as
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

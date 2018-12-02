@@ -1,0 +1,70 @@
+@startuml
+participant "Activity\n(Source)" as a
+participant "Instrumentation\n(Source)" as inst1
+participant "ActivityThread\n(Source)" as at1
+participant "ApplicationThread\n(Source)" as apt1
+participant "ApplicationThreadNative\n(Source)" as atn1
+participant "ActivityManagerProxy\n(Source)" as amp1
+boundary "Activity(Source)-AMS"
+participant "ApplicationThreadProxy\n(Source)" as atp1
+participant ActivityManagerService as ams
+participant ActivityStackSupervisor as ass
+participant ActivityStack as as
+participant "ApplicationThreadProxy\n(Target)" as atp2
+boundary "AMS-Activity(Target)"
+participant "ActivityManagerProxy\n(Target)" as amp2
+participant "ApplicationThreadNative\n(Target)" as atn2
+participant "ApplicationThread\n(Target)" as apt2
+participant "ActivityThread\n(Target)" as apt2
+participant "Activity\n(Target)" as b
+boundary process
+participant Zygote as zygote
+participant Process as proc
+
+at1->at1: handleMessage(PauseActivity)
+activate at1
+at1->at1: handlePauseActivity
+activate at1
+at1->at1:performUserLeavingActivity
+activate at1
+at1->inst1: callActivityOnUserLeaving
+activate inst1
+inst1->a:onUserLeaving()
+activate a
+deactivate a
+deactivate inst1
+deactivate at1
+at1->at1: performPauseActivity
+activate at1
+at1->at1: callCallActivityOnSaveInstanceState
+activate at1
+at1->inst1:callActivityOnSaveInstanceState
+activate inst1
+inst1->a : onSaveInstanceState
+activate a
+deactivate a
+deactivate inst1
+deactivate at1
+at1->at1:performPauseActivityIfNeeded
+activate at1
+at1->inst1:callActivityOnPause
+activate inst1
+inst1->a : performPause
+activate a
+a->a:onPause
+activate a
+deactivate a
+deactivate a
+deactivate inst1
+deactivate at1
+deactivate at1
+at1->amp1: activityPaused
+activate amp1
+deactivate at1
+deactivate at1
+amp1->ams: activityPaused
+activate ams
+
+
+
+@enduml
